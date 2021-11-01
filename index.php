@@ -9,6 +9,8 @@
 
  </header>
 
+
+ <!-- this part is supposed to connect to the database -->
 <?php
 	$con = new mysqli('localhost', 'root', 'PC5X6e4qejsK3s', 'ist470');
 	if ($con->connect_error)
@@ -30,6 +32,17 @@
 		die("SELECT CENTER FAILED");
 ?>
 </head>
+
+
+
+<div id = 'origin'>
+
+<!-- This div is gonna be used to ask the user for their starting location. This should ask the user to search for a building code or name from the database, pull it, and apply it as the origin parameter. Probably best to use a JS method here  -->
+<!-- Ideally, this bitch will appear and say 'Hey, please select a starting location' and then disappear after user input -->
+
+</div>
+
+
 
 <body style = 'font: Impact, sans-serif; background-color:#b3b3b3; text-align:center'>
 
@@ -53,7 +66,7 @@
 
 	-->
 	
-
+<!-- currently the PHP isnt working for pulling a Map Center from the database. Probably because the method it's calling doesnt exist -->
 	<script>
 	function myMap()
 	{
@@ -66,8 +79,10 @@
 
 		};
 
+	
 		var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
+//code for placing markers on the map. Gonna be useful for pulling waypoints for the beginning/end of the directions line. 
 
 	<?php
 
