@@ -6,14 +6,13 @@
     global $con;
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-    echo $_POST['search'];
-    echo "<br>";
+    
 
     if (isset($_POST['search'])) {
 
 
-        $_POST['search'];
+        //echo "<input hidden type=text id=name value='" . $_POST['search'] . "'>";
+        echo "<h5>" . $_POST['search'] . "</h5>";
 
         $Query = $con -> query("SELECT * FROM coordinates WHERE bcode = '".$_POST['search']."'");
 
@@ -37,18 +36,11 @@
                     echo "<br>";
                 }
                 else echo 'Failed to find Longitude';
+                    ?>
+ 
                 
-
-
-            /*
-            if( $row = $Query->fetch_assoc())
-            {
-            echo "<p> Latitude: ". $row['lat'] . " <br> Longitude ". $row['lon'];
-            }
-            else echo " <br> Failed to Print Coordinates";
-            */
-
-
+                <?php
+       
         }   
         else{echo "Query Failed";}
     }

@@ -1,22 +1,24 @@
+//declaring globals because it's 3am and I can't think of a better way to do it
+
 //Getting value from "ajax.php".
 function fill(Value) {
     //Assigning value to "search" div in "search.php" file.
     $('#search').val(Value);
     //Hiding "display" div in "search.php" file.
     $('#display').hide();
- }
+}
 
 //Getting Coordinate values from Search Bar
-$(document).ready(function(){
-    $("#button").click(function() {
+$(document).ready(function () {
+    $("#button1").on("click", function () {
 
         var search = $('#search').val();
 
         if (search == "") {
             $('#display').html("No Location Selected")
-        }    
+        }
 
-        else{
+        else {
             $.ajax({
 
                 type: "POST",
@@ -25,10 +27,10 @@ $(document).ready(function(){
 
                 data: { search: $('#search').val() },
 
-                success: function(html) {
+                success: function (html) {
 
-                   $('#coordresult').html(html).show();
-                
+                    $('#coordresult').html(html).show();
+
                 }
             });
         }
@@ -38,10 +40,10 @@ $(document).ready(function(){
 });
 
 
-// Function for calling origin coordinates.
- $(document).ready(function() {
+
+$(document).ready(function () {
     //On pressing a key on "Search box" in "search.php" file. This function will be called.
-    $("#search").keyup(function() {
+    $("#search").keyup(function () {
         //Assigning search box value to javascript variable named as "name".
         var name = $('#search').val();
         //Validating, if "name" is empty.
@@ -63,13 +65,125 @@ $(document).ready(function(){
                     search: name
                 },
                 //If result found, this funtion will be called.
-                success: function(html) {
+                success: function (html) {
                     //Assigning result to "display" div in "search.php" file.
                     $("#display").html(html).show();
-                    $("#display").append("<li value='"+id+"'>"+name+"</li>");
+                    $("#display").append("<li value='" + id + "'>" + name + "</li>");
                 }
             });
         }
     });
- });
+});
 
+
+$(document).ready(function () {
+
+    let origin = false;
+    const $search = $('#search');
+    const $originDiv = $('#originresult')
+    const $destinationDiv = $('#destinationresult')
+
+    const displayAddress = function ($el) {
+
+        $("#input").html("Please Enter Origin Location")
+
+        $.ajax({
+
+            type: "POST",
+            url: "getcoords.php",
+            data: { search: $search.val() },
+            success: function (address) {
+                $el.html(address)
+            },
+        });
+
+    }
+
+    $("#button").on("click", function () {
+        if (origin) {
+            displayAddress($destinationDiv);
+            $("#input").html("Please Enter Origin Location")
+        } else {
+            displayAddress($originDiv);
+            $("#input").html("Please Enter Destination Location")
+            origin = true;
+        }
+    })
+});
+
+
+$(document).ready(function () {
+
+    let firstClick = true
+    let success = false
+    var $originCode;
+    var $destCode;
+
+    $("#button").on("click", function () {
+        if (firstClick) {
+
+            $originCode = $('#search').val();
+            firstClick = false
+        }
+        else {
+
+            $destCode = $('#search').val();
+            firstClick = true;
+        }
+    })
+
+    $("#directions").on("click", function () {
+        ///else{
+        // $('#test').append($originCode).val();
+        // $('#test').append($destCode).val();
+        $.ajax({
+            type: "POST",
+            url: 'getDirections.php',
+            data: { org: $originCode, dest: $destCode },
+            success: function (directions) {
+                $('#urlholder').append(directions)
+                success = true;
+
+                if(success=true){
+
+                    const $url = $('#url').val();
+                    $('#test').append($url);
+                    /*
+                    $.ajax({
+                        type: 'GET',
+                        url: $url,
+                        success: function(directionsResults){console.log(directionsResults);}
+                    });
+                    */
+        }
+        else $('#test').append('no work');
+            },
+        });
+
+        
+
+    
+        //}
+
+    });
+
+});
+
+
+
+
+//sample code for directions request, should probably implement this into an ajax query
+//var config = {
+//    method: 'get',
+//    url: 'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY',
+ //   headers: { }
+
+ //, dest: $('h5:last').val()
+
+
+//if($originCode == $destCode){
+//                $('#test').html('Invalid Selection: Cannot pick same location twice');
+//            }
+
+
+//  };
