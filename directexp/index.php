@@ -26,7 +26,7 @@
 
 
 						<ul id="menu">
-							<li><button id="btn" class="modal-button" href="#myModal2"> Building Codes </button></li>
+							<li><button id="btn" style=font-weight:bold class="modal-button" href="#myModal2"> Building Codes </button></li>
 		<div id="myModal2" class="modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
