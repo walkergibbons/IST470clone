@@ -72,10 +72,10 @@
 			</div>
 		</div>
 							<a href="https://residencelife.mercer.edu/www/images/MaconCampusMap19-20.jpg" target="_blank">
-								<li>Printable Map</li>
+								<li class="nlinks">Printable Map</li>
 							</a>
 							<a href="https://www.mercer.edu/" target="_blank">
-								<li>Mercer Website</li>
+								<li class="nlinks">Mercer Website</li>
 							</a>
 						</ul>
 					</div>
