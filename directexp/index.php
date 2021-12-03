@@ -26,9 +26,51 @@
 
 
 						<ul id="menu">
-							<a href="#">
-								<li>Building Codes</li>
-							</a>
+							<li><button id="btn" class="modal-button" href="#myModal2"> Building Codes </button></li>
+		<div id="myModal2" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div class = "row">
+				<div class = "col">
+					<h1>Building Names - Code</h1>
+				</div>
+				</div>
+				<div class = "row">
+				<div class = "col">
+					<p>Connell Student Center - CSC</p>
+					<p>Historical Quad - HQ</p>
+					<p>Willet Science Center - WSC</p>
+					<p>School of Engineering - EGR</p>
+					<p>Science and Engineering Building - SEB</p>
+					<p>Godsey Science Center - GSC</p>
+				</div>
+				<div class = "col">
+					<p>Knight Hall - KNT</p>
+					<p>Ryals Hall - RYL</p>
+					<p>Langdale Hall - LNG</p>
+					<p>Groover Hall - GRV</p>
+					<p>Ware Hall - WRE</p>
+					<p>Wiggs Hall - WIG</p>
+				</div>
+				<div class = "col">
+					<p>Cruz Plaza - CRZ</p>
+					<p>Penfield Hall - PEN</p>
+					<p>Auxiliary Services - AUX</p>
+					<p>Mercer Police Station - MRP</p>
+					<p>Stetson Hall - STS</p>
+					<p>School of Medicine - MED</p>
+				</div>
+				<div class = "col">
+					<p>Willingham Hall - WLG</p>
+					<p>Boone Hall - BNE</p>
+					<p>Porter Hall - PRT</p>
+					<p>Dowell Hall - DOW</p>
+					<p>Legacy Hall - LEG</p>
+					<p>Plunkett Hall - PLN</p>
+				</div>
+				</div>
+			</div>
+		</div>
 							<a href="https://residencelife.mercer.edu/www/images/MaconCampusMap19-20.jpg" target="_blank">
 								<li>Printable Map</li>
 							</a>
@@ -46,11 +88,11 @@
 			</div>
 			<div class="col">
 				<!-- Trigger/Open The Modal -->
-				<button id="myBtn" class="epicMealTime">Input Directions Here!</button>
+				<button id="myBtn1" class="modal-button" href="#myModal1">Input Directions Here!</button>
 			</div>
 		</div>
 		<!-- The Modal -->
-		<div id="myModal" class="modal">
+		<div id="myModal1" class="modal">
 
 			<!-- Modal content -->
 			<div class="modal-content">
