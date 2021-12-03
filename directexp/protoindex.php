@@ -66,28 +66,26 @@
 							<div class="col" style='background-color: lightgrey'>
 								<p id='input'> Please Enter Origin Location </p>
 								<!-- Search box. -->
-								<input type="text" autocomplete="off" id="search" placeholder="Select Origin" />
+								<input type="text" autocomplete="off" id="search" placeholder="Select Building Code" />
 								<br>
-								<input type='button' id='confirm' value='Confirm Location'>
+								<b>Ex: </b><i>WSC, UC, CSC, SEB</i>
 								<br />
 								<!-- Suggestions will be displayed in below div. -->
 								<div id="display"></div>
-								<div id='message'></div>
 
+								<input type="button" id="button" name="origin" value="Get Coordinates" />
 							</div>
 
 							<div class="col" style='background-color: white'>
-								<p id='input'> Please Enter Destination Location </p>
-								<input type="text" autocomplete="off" id="search2" placeholder="Select Destination" />
-								<br>
-								<input type='button' id='confirm2' value='Confirm Location'>
-								<br />
-								<!-- Suggestions will be displayed in below div. -->
-								<div id="display2"></div>
-								<div id='message2'></div>
+								<p> Origin Information </p>
+								<div id='originresult' style='background-color: lightgrey'></div>
 							</div>
 
+							<div class="col" style='background-color: lightgrey'>
+								<p> Destination Information </p>
+								<div id='destinationresult' style='background-color: white'></div>
 
+							</div>
 						</div>
 
 						<div class='row'>
@@ -154,9 +152,6 @@
 		?>
 
 		</div>
-
-
-		<script> </script>
 	</header>
 
 <body>
@@ -166,13 +161,10 @@
 
 	<div id="map" style="width:100%;height:800px;"></div>
 	<script>
-		
-		
-		
 		function myMap() {
 
 			var directionsService = new google.maps.DirectionsService();
-			var directionsRenderer = new google.maps.DirectionsRenderer();
+  			var directionsRenderer = new google.maps.DirectionsRenderer();
 
 			var mapProp = {
 				center: new google.maps.LatLng('32.8275', '-83.6494'),
@@ -194,36 +186,11 @@
 
 			<?php addMarkers(); ?>
 
-			$("#directions").on('click', function(){
+		}
 
-				var $origin = $('#coordinate').val();
-				var $destination = $('#coordinate2').val();
-
-				var $request = {
-
-					origin: $origin,
-					destination: $destination,
-					travelMode: 'WALKING'
-
-				};
-
-				directionsService.route($request, function(result, status) {
-
-					if (status == 'OK') {
-						directionsRenderer.setDirections(result);
-					}
-
-
-				});
-			}
-
-
-			)}
-
+		
 	</script>
 
-			<input hidden id = 'coordinate' value=''>
-			<input hidden id = 'coordinate2' value=''>
 
 
 
@@ -231,11 +198,12 @@
 
 
 
-	<button hidden id='secretbutton' onclick="displayDirections()"></div>
 
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA8OXkLqtVF7X51RpqSBL5MjTPZqTNdIo&callback=myMap"> </script>
+	<div hidden id='urlholder'></div>
 
-		<script type="text/javascript" src="scripts.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA8OXkLqtVF7X51RpqSBL5MjTPZqTNdIo&callback=myMap"> </script>
+
+	<script type="text/javascript" src="scripts.js"></script>
 </body>
 
 </html>

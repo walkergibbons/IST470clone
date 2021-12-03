@@ -12,16 +12,16 @@
 
 
         //echo "<input hidden type=text id=name value='" . $_POST['search'] . "'>";
-        echo "<h5>" . $_POST['search'] . "</h5>";
+       // echo "<h5>" . $_POST['search'] . "</h5>";
 
         $Query = $con -> query("SELECT * FROM coordinates WHERE bcode = '".$_POST['search']."'");
 
         if($Query) {
 
-            echo "Query Succesful <br>";   
+            //echo "Query Succesful <br>";   
 
             $row = mysqli_fetch_assoc($Query);
-
+            /*
                 if(!is_null($row["lat"])) {
 
                     echo "Latitude Found:" . $row['lat'];
@@ -36,13 +36,12 @@
                     echo "<br>";
                 }
                 else echo 'Failed to find Longitude';
-                    ?>
- 
-                
-                <?php
+                */
+
+                echo $row['lat'] . ", " . $row['lon'];
        
         }   
-        else{echo "Query Failed";}
+        //else{echo "Query Failed";}
     }
    
 
