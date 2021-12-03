@@ -39,11 +39,15 @@
 		<h1> Mercer University Campus Map </h1>
 	</div>
 	<div class = "col">
+
 		<!-- Trigger/Open The Modal -->
 		<button id="myBtn" class="epicMealTime">Input Directions Here!</button>
+
 	</div>
 </div>
-		<!-- The Modal -->
+
+
+			<!-- The Modal -->
 		<div id="myModal" class="modal">
 
 		  <!-- Modal content -->
@@ -95,6 +99,9 @@
   		  </div>
  		 </div>
 
+		
+
+	</div>	
 		
 
 	</div>
