@@ -5,7 +5,7 @@
 
 	<title> Mercer University Campus Map </title>
 
-	<header style="text-align: center; background-color: #f76800; font: Optima; border-bottom-style:solid">
+	<header class="header">
 
 
 		<link rel="stylesheet" type="text/css" href="style.css">
@@ -26,56 +26,14 @@
 
 
 						<ul id="menu">
-							<li><button id="btn" style=font-weight:bold class="modal-button" href="#myModal2"> Building Codes </button></li>
-		<div id="myModal2" class="modal">
-			<div class="modal-content">
-				<span class="close">&times;</span>
-				<div class = "row">
-				<div class = "col">
-					<h1>Building Names - Code</h1>
-				</div>
-				</div>
-				<div class = "row">
-				<div class = "col">
-					<p>Connell Student Center - CSC</p>
-					<p>Historical Quad - HQ</p>
-					<p>Willet Science Center - WSC</p>
-					<p>School of Engineering - EGR</p>
-					<p>Science and Engineering Building - SEB</p>
-					<p>Godsey Science Center - GSC</p>
-				</div>
-				<div class = "col">
-					<p>Knight Hall - KNT</p>
-					<p>Ryals Hall - RYL</p>
-					<p>Langdale Hall - LNG</p>
-					<p>Groover Hall - GRV</p>
-					<p>Ware Hall - WRE</p>
-					<p>Wiggs Hall - WIG</p>
-				</div>
-				<div class = "col">
-					<p>Cruz Plaza - CRZ</p>
-					<p>Penfield Hall - PEN</p>
-					<p>Auxiliary Services - AUX</p>
-					<p>Mercer Police Station - MRP</p>
-					<p>Stetson Hall - STS</p>
-					<p>School of Medicine - MED</p>
-				</div>
-				<div class = "col">
-					<p>Willingham Hall - WLG</p>
-					<p>Boone Hall - BNE</p>
-					<p>Porter Hall - PRT</p>
-					<p>Dowell Hall - DOW</p>
-					<p>Legacy Hall - LEG</p>
-					<p>Plunkett Hall - PLN</p>
-				</div>
-				</div>
-			</div>
-		</div>
+							<a href="#">
+								<li>Building Codes</li>
+							</a>
 							<a href="https://residencelife.mercer.edu/www/images/MaconCampusMap19-20.jpg" target="_blank">
-								<li class="nlinks">Printable Map</li>
+								<li>Printable Map</li>
 							</a>
 							<a href="https://www.mercer.edu/" target="_blank">
-								<li class="nlinks">Mercer Website</li>
+								<li>Mercer Website</li>
 							</a>
 						</ul>
 					</div>
@@ -88,11 +46,14 @@
 			</div>
 			<div class="col">
 				<!-- Trigger/Open The Modal -->
-				<button id="myBtn1" class="modal-button" href="#myModal1">Input Directions Here!</button>
+				<button id="myBtn" class="epicMealTime">Input Directions Here!</button>
+				<input id='filterbar' placeholder='Filter by Building Name' value="">
 			</div>
+
+
 		</div>
 		<!-- The Modal -->
-		<div id="myModal1" class="modal">
+		<div id="myModal" class="modal">
 
 			<!-- Modal content -->
 			<div class="modal-content">
@@ -144,9 +105,6 @@
 					<h3>Thank you for using Campus Directions!</h3>
 				</div>
 			</div>
-
-
-
 		</div>
 		<?php
 
@@ -158,40 +116,12 @@
 			die('could not connect to mySQL: ' . $con->connect_error);
 		}
 
-
 		$centerData = $con->query("SELECT * FROM coordinates WHERE bcode = 'UC'");
 
 		if ($centerData) {
 			$center = $centerData->fetch_assoc();
 		} else
 			die("SELECT CENTER FAILED");
-
-
-
-		/*function for loading marker data into the addMarkers script*/
-
-		function addMarkers()
-		{
-
-			global $con;
-
-			$markerData = $con->query("SELECT * FROM coordinates");
-
-			if ($markerData) {
-				while ($row = $markerData->fetch_assoc()) {
-
-					echo "var m" . $row['indx'] . " = new google.maps.Marker({position:new google.maps.LatLng(" . $row['lat'] . ", " . $row['lon'] . ")});\n";
-					echo "var i" . $row['indx'] . " = new google.maps.InfoWindow({content:'" . $row['bcode'] . " - " . $row['bname'] . "'});\n";
-
-					echo "m" . $row['indx'] . ".setMap(map); \n";
-
-					echo "m" . $row['indx'] . ".addListener(\"mouseover\", ()  => { i" . $row['indx'] . ".open({anchor:m" . $row['indx'] . ", map,})});\n";
-					echo "m" . $row['indx'] . ".addListener(\"mouseout\", ()  => { i" . $row['indx'] . ".close()});\n";
-				}
-			}
-		}
-
-
 
 		?>
 
@@ -203,81 +133,50 @@
 
 <body>
 
+	<div id='test'></div>
+
+	<?php
+	global $con;
+
+	$markerData = $con->query("SELECT * FROM coordinates ORDER BY indx");
+
+	$r = array();
+	$count = 0;
+
+	while ($row = mysqli_fetch_assoc($markerData)) {
+
+		$r[] = $row;
+		$count = $count + 1;
+	}
+
+	?>
 
 
 
-	<div id="map" style="width:100%;height:800px;"></div>
-	<script>
-		
-		
-		
-		function myMap() {
-
-			var directionsService = new google.maps.DirectionsService();
-			var directionsRenderer = new google.maps.DirectionsRenderer();
-
-			var mapProp = {
-				center: new google.maps.LatLng('32.8275', '-83.6494'),
-				zoom: 16,
-				//does the hide thing
-				mapTypeId: google.maps.MapTypeId.ROADMAP,
-				styles: [{
-					"featureType": "poi",
-					"stylers": [{
-						"visibility": "off"
-					}]
-				}]
-
-
-			};
-
-			var map = new google.maps.Map(document.getElementById("map"), mapProp);
-			directionsRenderer.setMap(map);
-
-			<?php addMarkers(); ?>
-
-			$("#directions").on('click', function(){
-
-				var $origin = $('#coordinate').val();
-				var $destination = $('#coordinate2').val();
-
-				var $request = {
-
-					origin: $origin,
-					destination: $destination,
-					travelMode: 'WALKING'
-
-				};
-
-				directionsService.route($request, function(result, status) {
-
-					if (status == 'OK') {
-						directionsRenderer.setDirections(result);
-					}
-
-
-				});
-			}
-
-
-			)}
-
-	</script>
-
-			<input hidden id = 'coordinate' value=''>
-			<input hidden id = 'coordinate2' value=''>
+	<div style="display: none" id='totalCoords'><?php echo (json_encode($r)); ?></div>
+	<input hidden id='coordinate' value='' />
+	<input hidden id='coordinate2' value='' />
 
 
 
+	<div id="map" class='map'></div>
 
+	<div id='detailsBar' class='detailsBar'>
 
+		<div>
 
+			<div ><img class=img-holder id='locationImage' src=''></div>
+			<button class='details-pane-close'>x</button>
+			<div class='details-pane-title'></div>
 
-	<button hidden id='secretbutton' onclick="displayDirections()"></div>
+		</div>
 
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA8OXkLqtVF7X51RpqSBL5MjTPZqTNdIo&callback=myMap"> </script>
+		<div class='details-pane-content'></div>
+	</div>
 
-		<script type="text/javascript" src="scripts.js"></script>
+	<script type="text/javascript" src="scripts.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA8OXkLqtVF7X51RpqSBL5MjTPZqTNdIo&callback=myMap"> </script>
+
 </body>
 
 </html>
