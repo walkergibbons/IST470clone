@@ -110,7 +110,7 @@
 
 		/*code for connecting to phpmyadmin database. */
 
-		$con = new mysqli('localhost', 'root', 'PC5X6e4qejsK3s', 'ist470');
+		$con = new mysqli('localhost', 'root', 'xXdBLnejWq3h9s', 'mapApp');
 
 		if ($con->connect_error) {
 			die('could not connect to mySQL: ' . $con->connect_error);
@@ -140,18 +140,45 @@
 
 	$markerData = $con->query("SELECT * FROM coordinates ORDER BY indx");
 
+	function utf8ize($input){
+
+			if (is_array($input)) {
+				foreach ($input as $k => $v) {
+					$input[$k] = utf8ize($v);
+				}
+			} else if (is_string ($input)) {
+				return utf8_encode($input);
+			}
+			return $input;	
+	};
+
+	
 	$r = array();
 	$count = 0;
 
+	if($markerData){
 	while ($row = mysqli_fetch_assoc($markerData)) {
 
 		$r[] = $row;
 		$count = $count + 1;
-	}
+
+	}} 
+
+	$r = utf8ize($r);
+
+		
+	
+
 
 	?>
 
 
+	<script> 
+
+	var i = <?php echo (json_encode($r)); ?>;
+	console.log(i);
+	
+	 </script>
 
 	<div style="display: none" id='totalCoords'><?php echo (json_encode($r)); ?></div>
 	<input hidden id='coordinate' value='' />
