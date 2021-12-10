@@ -23,17 +23,61 @@
 						<span></span>
 						<span></span>
 						<span></span>
-
-
+						
 						<ul id="menu">
-							<a href="#">
-								<li>Building Codes</li>
-							</a>
+							<li><button id="btn" style=font-weight:bold class="modal-button" href="#myModal2"> Building Codes </button></li>
+
+							<div id="myModal2" class="modal">
+								<div class="modal-content">
+									<span class="close">&times;</span>
+									<div class="row">
+										<div class="col">
+											<h1>Building Names - Code</h1>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<p>Connell Student Center - CSC</p>
+											<p>Historical Quad - HQ</p>
+											<p>Willet Science Center - WSC</p>
+											<p>School of Engineering - EGR</p>
+											<p>Science and Engineering Building - SEB</p>
+											<p>Godsey Science Center - GSC</p>
+										</div>
+										<div class="col">
+											<p>Knight Hall - KNT</p>
+											<p>Ryals Hall - RYL</p>
+											<p>Langdale Hall - LNG</p>
+											<p>Groover Hall - GRV</p>
+											<p>Ware Hall - WRE</p>
+											<p>Wiggs Hall - WIG</p>
+										</div>
+										<div class="col">
+											<p>Cruz Plaza - CRZ</p>
+											<p>Penfield Hall - PEN</p>
+											<p>Auxiliary Services - AUX</p>
+											<p>Mercer Police Station - MRP</p>
+											<p>Stetson Hall - STS</p>
+											<p>School of Medicine - MED</p>
+										</div>
+										<div class="col">
+											<p>Willingham Hall - WLG</p>
+											<p>Boone Hall - BNE</p>
+											<p>Porter Hall - PRT</p>
+											<p>Dowell Hall - DOW</p>
+											<p>Legacy Hall - LEG</p>
+											<p>Plunkett Hall - PLN</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
 							<a href="https://residencelife.mercer.edu/www/images/MaconCampusMap19-20.jpg" target="_blank">
-								<li>Printable Map</li>
+								<li class="nlinks">Printable Map</li>
 							</a>
 							<a href="https://www.mercer.edu/" target="_blank">
-								<li>Mercer Website</li>
+								<li class="nlinks">Mercer Website</li>
 							</a>
 						</ul>
 					</div>
@@ -44,16 +88,27 @@
 				<img src="https://www.mercer.edu/wp-content/uploads/2019/04/cropped-android-chrome-512x512.png" alt="Mercer Logo" width="80" height="80">
 				<h1> Mercer University Campus Map </h1>
 			</div>
+
 			<div class="col">
-				<!-- Trigger/Open The Modal -->
-				<button id="myBtn" class="epicMealTime">Input Directions Here!</button>
+				<button class='clearDirections'> Clear Directions </button>
+			</div>
+
+			<div class="col">
 				<input id='filterbar' placeholder='Filter by Building Name' value="">
 			</div>
+
+			<div class="col">
+				<!-- Trigger/Open The Modal -->
+				<button id="btn2" class="modal-button" href="#myModal1">Input Directions Here!</button>
+			</div>
+
+
+
 
 
 		</div>
 		<!-- The Modal -->
-		<div id="myModal" class="modal">
+		<div id="myModal1" class="modal">
 
 			<!-- Modal content -->
 			<div class="modal-content">
@@ -136,51 +191,37 @@
 	<div id='test'></div>
 
 	<?php
+
 	global $con;
+
+	function utf8ize($input)
+	{
+
+		if (is_array($input)) {
+			foreach ($input as $k => $v) {
+				$input[$k] = utf8ize($v);
+			}
+		} else if (is_string($input)) {
+			return utf8_encode($input);
+		}
+		return $input;
+	};
 
 	$markerData = $con->query("SELECT * FROM coordinates ORDER BY indx");
 
-	function utf8ize($input){
-
-			if (is_array($input)) {
-				foreach ($input as $k => $v) {
-					$input[$k] = utf8ize($v);
-				}
-			} else if (is_string ($input)) {
-				return utf8_encode($input);
-			}
-			return $input;	
-	};
-
-	
 	$r = array();
 	$count = 0;
 
-	if($markerData){
 	while ($row = mysqli_fetch_assoc($markerData)) {
 
 		$r[] = $row;
 		$count = $count + 1;
-
-	}} 
-
-	$r = utf8ize($r);
-
-		
-	
-
+	}
 
 	?>
 
 
-	<script> 
-
-	var i = <?php echo (json_encode($r)); ?>;
-	console.log(i);
-	
-	 </script>
-
-	<div style="display: none" id='totalCoords'><?php echo (json_encode($r)); ?></div>
+	<div style="display: none" id='totalCoords'><?php echo json_encode(utf8ize($r)); ?></div>
 	<input hidden id='coordinate' value='' />
 	<input hidden id='coordinate2' value='' />
 
@@ -192,7 +233,7 @@
 
 		<div>
 
-			<div ><img class=img-holder id='locationImage' src=''></div>
+			<div><img class=img-holder id='locationImage' src=''></div>
 			<button class='details-pane-close'>x</button>
 			<div class='details-pane-title'></div>
 
